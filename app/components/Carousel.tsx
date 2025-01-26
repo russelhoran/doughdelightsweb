@@ -20,7 +20,10 @@ const responsive = {
     }
   };
 
-const Carousell = ({data,videos=false}) => {
+const Carousell = ({
+  data: any; 
+  videos?: boolean;  
+}) => {
   return (
     <div>
   <Carousel responsive={responsive}>
