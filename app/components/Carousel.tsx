@@ -20,10 +20,12 @@ const responsive = {
     }
   };
 
-const Carousell = ({
+interface CarouselProps {
   data: any; 
-  videos?: boolean;  
-}) => {
+  videos?: boolean; 
+}
+
+const Carousell: React.FC<CarouselProps> = ({ data, videos = false }) => {
   return (
     <div>
   <Carousel responsive={responsive}>
