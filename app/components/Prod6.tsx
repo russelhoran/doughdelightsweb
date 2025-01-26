@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const Prod6 = () => {
 
-  function pdpPage (idx){
+  function pdpPage (idx: string | number){
     <Link href={`product/${idx}`}></Link>
   }
 
