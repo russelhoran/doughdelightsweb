@@ -2,7 +2,6 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Footer2 from '../components/Footer2'
-import Prod3 from '../components/Prod3'
 import Prod6 from '../components/Prod6'
 
 const page = () => {
