@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+
+.text-container {
+    text-align: center;
+    color: #4A2E2A;
+}
+
+.the {
+    font-family: 'Great Vibes', cursive;
+    font-size: 15px;
+    letter-spacing: 2px;
+    margin-right: -79px;
+    margin-top: -13px;
+}
+
+.doughdelights {
+    font-family: 'Lobster', cursive;
+    font-size: 25px;
+    font-weight: bold;
+    color: #513126;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.flourish {
+    font-family: 'Pacifico', cursive;
+    font-size: 10px;
+    margin-top: 33px;
+    margin-left: -112px;
+}
