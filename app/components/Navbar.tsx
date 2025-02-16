@@ -88,7 +88,9 @@ const Navbar = () => {
              <div className="flex gap-3">
               <div className='flex mt-8 gap-3 pr-4'>
             <SearchIcon/>
+            <Link href={'/login'}>
             <PersonIcon/>
+            </Link>
             <ShoppingCartIcon/>
             </div>
             </div>
