@@ -1,10 +1,10 @@
 import React from 'react'
 import PhoneIcon from '@mui/icons-material/Phone';
 import MailIcon from '@mui/icons-material/Mail';
-
+import styles from '../css/styles.module.css'
 const Footer2 = () => {
   return (
-    <div className='bg-[#513126] h-[350px] grid grid-cols-4 gap-4 p-[34px]'>
+      <div className={`${styles.abvfooter} bg-[#513126] grid grid-cols-4 gap-4 p-[34px]`}>
       <div className='w-full flex flex-col gap-2 text-white' style={{fontFamily:'math'}}>
         <h1 className='font-bold mb-2'>Contact Details</h1>
        <p>About us</p>

@@ -1,40 +1,119 @@
 'use client';
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import Link from 'next/link'
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import styles from '../css/styles.module.css';
 
-const Prod6 = () => {
+const Prod6 = ({type}) => {
 
+  const [typee,setType] = useState('');
+  const [accessToken,setAccessToken]= useState('')
+  const [products,setProductData]=useState([]);
+   
   function pdpPage (idx){
     <Link href={`product/${idx}`}></Link>
   }
 
- const products =  {
-        "sample":[
-          {
-            "description":"Lady with a red umbrella",
-            "image-url":"./Images/cake1.jpeg"
-          },
-          {
-            "description":"Flowers and some fruits",
-            "image-url":"./Images/cake2.jpeg"
-          },
-          {
-            "description":"Beautiful scenery",
-            "image-url":"./Images/cake4.jpeg"
-          },
-          {
-            "description":"Some kind of bird",
-            "image-url":"./Images/cake3.jpeg"
-          },
-          {
-            "description":"The attack of dragons",
-            "image-url":"./Images/cake5.jpeg"
-          }
+  useEffect(()=>{
+    const client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
+    const client_secret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+    const username = 'russel';
+    const password = 'russel@123'
+  
+  
+      const token = async () => {
+        try {
+          const popularData = await axios.post(
+            "http://localhost:8000/api/token/", 
+            new URLSearchParams({
+              grant_type: "password",
+              username,   
+              password,    
+            }),
+            {
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: "Basic " + Buffer.from(`${client_id}:${client_secret}`).toString("base64"),
+              },
+            }
+          );
+        
+          console.log(popularData.data.access,'exit');
           
-        ]
-      
+           setAccessToken(popularData.data.access)
+        } catch (err) {
+          console.error("Error fetching token:", err);
+        }
+       
       }
+      token();
+  },[])
+
+
+useEffect(() => {
+
+  
+  if (type.type == 'popular' && accessToken!='') {
+    const fetchData = async () => {
+      try {
+        setType(type); 
+        const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}`, {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`
+          }
+        });
+        console.log('test');
+        setProductData(popularData.data.results)
+        console.log(products)
+      } catch (err) {
+        throw new Error('Error');
+      }
+    };
+    fetchData();
+  }
+
+  if(type.type == 'signature' && accessToken!=''){
+    const fetchDataSignature = async() =>{
+      try {
+        setType(type); 
+        const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}`, {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`
+          }
+        });
+        console.log('test');
+        setProductData(popularData.data.results)
+        console.log(products)
+      } catch (err) {
+        throw new Error('Error');
+      }
+    };
+    fetchDataSignature()
+    }
+
+    if(type.type == 'all' && accessToken!=''){
+      const fetchDataSignature = async() =>{
+        try {
+          setType(type); 
+          const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}`, {
+            headers: {
+              "Authorization": `Bearer ${accessToken}`
+            }
+          });
+          console.log('test');
+          setProductData(popularData.data.results)
+          console.log(products)
+        } catch (err) {
+          throw new Error('Error');
+        }
+      };
+      fetchDataSignature()
+      }
+}, [accessToken, type]);
+
+
 
 
 
@@ -42,19 +121,23 @@ const Prod6 = () => {
     <div style={{background:"#FFF4E3"}}>
        <h1 className='font-bold' style={{fontSize:"60px", color:"#513126", fontFamily:'math'}}>Popular Products</h1>
       <div className='grid grid-cols-4 gap-4 p-[34px]'>
-        {products.sample.map((prod, index) => (
-          <Link href={`/product/${index}`} key={index}>
+        {products.map((prod, index) => (
+          <Link href={`/product/${prod.url.split('/').reverse()[1]}`} key={prod.url}>
           <div key={index} onClick={() => pdpPage(index)}>
-            <img className='h-[260px] w-[260px] mb-[15px] hover:scale-125 transition-all duration-500 cursor-pointer' src={prod['image-url']} alt={prod.description} />
-            <h2 className='hover:underline' style={
+          <img 
+  className={`h-[260px] w-[260px] mb-[15px] hover:scale-125 transition-all duration-500 cursor-pointer ${styles.imgmobile}`} 
+  src="/Images/cake3.jpeg" 
+  alt={prod?.description || 'Default description'} 
+/>
+          <h2 className='hover:underline' style={
                 {fontSize: "17px",
     color: "#513126",
     fontFamily: "math",
     fontWeight:"bold"
-    }}>{prod.description}</h2>
+    }}>{prod.name}</h2>
             <p className='' style={{fontFamily: "Math"}}><CurrencyRupeeIcon className='' style={{
                 fontSize:"17px"
-            }}/>100</p>
+            }}/>{prod.mrp}</p>
           </div>
           </Link>
         ))}

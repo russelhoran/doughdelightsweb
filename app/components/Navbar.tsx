@@ -9,7 +9,6 @@ import Modal from '@mui/material/Modal';
 import styles from '../css/styles.module.css'
 import Link from 'next/link'
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -34,8 +33,10 @@ const Navbar = () => {
     setMobNav(!mobNav);
   }
 
+
+
   return (
-    <div className='h-[86px] border bg-[#FFF4E3] sticky align-middle justify-center' style={{   position: "sticky",
+	<div className={`h-[86px] border bg-[#FFF4E3] sticky align-middle justify-center ${styles.navmobile}`} style={{   position: "sticky",
       top: 0,
       zIndex: "5000000"}}>
       <div className='flex justify-evenly'>

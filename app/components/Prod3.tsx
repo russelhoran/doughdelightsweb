@@ -1,53 +1,99 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import axios from 'axios';
+import Link from 'next/link';
 
-const Prod3 = () => {
+const Prod3 = ({typee}) => {
 
-    const products =  {
-        "sample":[
-          {
-            "description":"Lady with a red umbrella",
-            "image-url":"/Images/cake6.jpeg"
-          },
-          {
-            "description":"Flowers and some fruits",
-            "image-url":"/Images/cake2.jpeg"
-          },
-          {
-            "description":"Beautiful scenery",
-            "image-url":"/Images/cake5.jpeg"
-          },
-          {
-            "description":"Some kind of bird",
-            "image-url":"https://i.imgur.com/QFDRuAh.jpg"
-          },
-          {
-            "description":"The attack of dragons",
-            "image-url":"https://i.imgur.com/8yIIokW.jpg"
-          }
+
+  function pdpPage (idx){
+    <Link href={`product/${idx}`}></Link>
+  }
+    console.log(typee,'typeeee');
+    
+    // const [typee,setType] = useState('');
+    const [accessToken,setAccessToken]= useState('')
+    const [products,setProductData]=useState([]);
+
+    useEffect(()=>{
+      const client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
+      const client_secret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+      const username = 'russel';
+      const password = 'russel@123'
+    
+    
+        const token = async () => {
+          try {
+            const popularData = await axios.post(
+              "http://localhost:8000/api/token/", 
+              new URLSearchParams({
+                grant_type: "password",
+                username,   
+                password,    
+              }),
+              {
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  Authorization: "Basic " + Buffer.from(`${client_id}:${client_secret}`).toString("base64"),
+                },
+              }
+            );
           
-        ]
-      
-      }
+            console.log(popularData.data.access,'exit');
+            
+             setAccessToken(popularData.data.access)
+          } catch (err) {
+            console.error("Error fetching token:", err);
+          }
+         
+        }
+        token();
+    },[])
+  
+    useEffect(() => {
+    
+      if(typee.type == 'signature' && accessToken!=''){
+        const fetchDataSignature = async() =>{
+          try {
+            const popularData = await axios.get(`http://localhost:8000/product/?category__name=${typee.type}`, {
+              headers: {
+                "Authorization": `Bearer ${accessToken}`
+              }
+            });
+            console.log('test');
+            setProductData(popularData.data.results)
+            console.log(products)
+          } catch (err) {
+            throw new Error('Error');
+          }
+        };
+        fetchDataSignature()
+        }
+    }, [accessToken, typee]);
+
 
 
     return (
     <div style={{margin: "auto",justifyContent: "center",display: "flex",flexDirection: "column", background:"#FFF4E3"}}>
     <h1 className='font-bold' style={{fontSize:"60px", color:"#513126", fontFamily:'math'}}>Signature Collections</h1>
    <div className='grid grid-cols-4 gap-4 p-[34px]' >
-     {products.sample.slice(0, 3).map((prod, index) => (
+     {products.slice(0, 3).map((prod, index) => (
+          <Link href={`/product/${prod.url.split('').reverse().join('')[1]}`} key={index}>
+          {/* <div key={index} onClick={() => pdpPage(index)}> */}
        <div key={index}>
-         <img className='h-[260px] w-[260px] mb-[15px]' src={prod['image-url']} alt={prod.description} />
+         <img  className='h-[260px] w-[260px] mb-[15px] hover:scale-125 transition-all duration-500 cursor-pointer' src={prod.image} alt={prod.name} />
          <h2 className='hover:underline' style={
              {fontSize: "17px",
  color: "#513126",
  fontFamily: "math",
  fontWeight:"bold"
- }}>{prod.description}</h2>
+ }}>{prod.name}</h2>
          <p className='' style={{fontFamily: "Math"}}><CurrencyRupeeIcon className='' style={{
              fontSize:"17px"
-         }}/>100</p>
+         }}/>{prod.mrp}</p>
        </div>
+       {/* </div> */}
+       </Link>
      ))}
    </div>
  </div>

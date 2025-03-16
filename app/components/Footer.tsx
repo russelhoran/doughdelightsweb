@@ -1,5 +1,6 @@
 import React from 'react'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import styles from '../css/styles.module.css'
 const Footer = () => {
 
     const footerData =  {
@@ -12,10 +13,7 @@ const Footer = () => {
 
 
   return (
-  <div className='flex flex-col justify-center align-middle h-[200px] p-[52px] bg-[#FFF4E3] m-auto' style={{
-    justifyContent: "center",
-    alignItems: "center"}}
->
+<div className={`${styles.footermobile} flex flex-col justify-center items-center h-[200px] p-[52px] bg-[#FFF4E3] mb-1 sm:mb-30 md:mb-1 lg:mb-2`}>
       <h2>
         {footerData.sample.map((e,index) =>(
             <div key={index}>

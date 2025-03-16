@@ -5,6 +5,9 @@ import Footer2 from '../components/Footer2'
 import Prod6 from '../components/Prod6'
 
 const page = () => {
+  const all = {
+    "type": "all"
+    }
   return (
     <div className='bg-[#FFF4E3]'>
       <Navbar/>
@@ -21,7 +24,7 @@ const page = () => {
             </select>
         </p>
       </div>
-      <Prod6/>
+      <Prod6 type={all}/>
       <Footer/>
       <Footer2/>
     </div>

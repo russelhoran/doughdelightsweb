@@ -13,15 +13,21 @@ const data =  {
   ]
 }
 
+const third = {
+"type": "popular"
+}
+const signature = {
+"type": "signature"
+}
+
 const page = () => {
   return (
     <div>
       <Navbar/>
       <Carousell data={data} videos={true} />
-      <Prod6/>
-      <Prod3/>
+      <Prod6 type={third}/>
+      <Prod3 typee={signature}/>
       <Carousell data={data} videos={false}/>
-      <Prod6/>
       <Footer/>
       <Footer2/>
     </div>

@@ -21,9 +21,10 @@ const responsive = {
   };
 
 const Carousell = ({data,videos=false}) => {
+ console.log(data,'data3');
   return (
     <div>
-  <Carousel responsive={responsive}>
+  <Carousel responsive={responsive} swipeable={false}   removeArrowOnDeviceType={["tablet", "mobile"]}>
   {videos && (
   <div className='h-[500px]'>
     <video width="100%" style={{height: "500px", objectFit: 'cover'}}  loop autoPlay muted>
