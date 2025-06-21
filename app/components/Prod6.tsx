@@ -2,17 +2,19 @@
 import React,{useState,useEffect} from 'react'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import Link from 'next/link'
-import Cookies from 'js-cookie';
 import axios from 'axios';
 import styles from '../css/styles.module.css';
 
-const Prod6 = ({type}) => {
-
+const Prod6 = ({type, forr}:any) => {
   const [typee,setType] = useState('');
+  console.log(type,'typeforloop');
+  
   const [accessToken,setAccessToken]= useState('')
   const [products,setProductData]=useState([]);
-   
-  function pdpPage (idx){
+  
+  const forType = forr == "home" ? "true" : ""
+
+  function pdpPage (idx:any){
     <Link href={`product/${idx}`}></Link>
   }
 
@@ -53,51 +55,12 @@ const Prod6 = ({type}) => {
 
 
 useEffect(() => {
-
-  
-  if (type.type == 'popular' && accessToken!='') {
-    const fetchData = async () => {
-      try {
-        setType(type); 
-        const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}`, {
-          headers: {
-            "Authorization": `Bearer ${accessToken}`
-          }
-        });
-        console.log('test');
-        setProductData(popularData.data.results)
-        console.log(products)
-      } catch (err) {
-        throw new Error('Error');
-      }
-    };
-    fetchData();
-  }
-
-  if(type.type == 'signature' && accessToken!=''){
-    const fetchDataSignature = async() =>{
-      try {
-        setType(type); 
-        const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}`, {
-          headers: {
-            "Authorization": `Bearer ${accessToken}`
-          }
-        });
-        console.log('test');
-        setProductData(popularData.data.results)
-        console.log(products)
-      } catch (err) {
-        throw new Error('Error');
-      }
-    };
-    fetchDataSignature()
-    }
-
-    if(type.type == 'all' && accessToken!=''){
-      const fetchDataSignature = async() =>{
+ 
+    if(type.type != '' && accessToken!=''){
+      const fetchAllData = async() =>{
         try {
           setType(type); 
-          const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}`, {
+          const popularData = await axios.get(`http://localhost:8000/product/?category__name=${type.type}&home=${forType}&status=true`, {
             headers: {
               "Authorization": `Bearer ${accessToken}`
             }
@@ -109,35 +72,32 @@ useEffect(() => {
           throw new Error('Error');
         }
       };
-      fetchDataSignature()
+      fetchAllData()
       }
 }, [accessToken, type]);
 
 
-
-
-
   return (
     <div style={{background:"#FFF4E3"}}>
-       <h1 className='font-bold' style={{fontSize:"60px", color:"#513126", fontFamily:'math'}}>Popular Products</h1>
-      <div className='grid grid-cols-4 gap-4 p-[34px]'>
-        {products.map((prod, index) => (
-          <Link href={`/product/${prod.url.split('/').reverse()[1]}`} key={prod.url}>
+       <h1 className='font-bold' style={{fontSize:"60px", color:"#513126", fontFamily:'math'}}>{type.type.charAt(0).toUpperCase() + type.type.slice(1)} Products</h1>
+      <div className='grid md:grid-cols-3 lg:grid-cols-4 gap-4 p-[34px]'>
+        {products.map((prod:any, index:any):any => (
+          <Link href={`/product/${prod?.url.split('/').reverse()[1]}`} key={prod?.url}>
           <div key={index} onClick={() => pdpPage(index)}>
           <img 
-  className={`h-[260px] w-[260px] mb-[15px] hover:scale-125 transition-all duration-500 cursor-pointer ${styles.imgmobile}`} 
-  src="/Images/cake3.jpeg" 
-  alt={prod?.description || 'Default description'} 
-/>
+          className={`h-[260px] w-[260px] mb-[15px] hover:scale-125 transition-all duration-500 cursor-pointer ${styles.imgmobile}`} 
+          src={prod?.image} 
+          alt={prod?.description || 'Default description'} 
+        />
           <h2 className='hover:underline' style={
                 {fontSize: "17px",
-    color: "#513126",
-    fontFamily: "math",
-    fontWeight:"bold"
-    }}>{prod.name}</h2>
+                color: "#513126",
+                fontFamily: "math",
+                fontWeight:"bold"
+                }}>{prod?.name}</h2>
             <p className='' style={{fontFamily: "Math"}}><CurrencyRupeeIcon className='' style={{
                 fontSize:"17px"
-            }}/>{prod.mrp}</p>
+            }}/>{prod?.mrp}</p>
           </div>
           </Link>
         ))}

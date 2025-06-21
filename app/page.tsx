@@ -3,7 +3,6 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Carousell from './components/Carousel'
 import Prod6 from './components/Prod6';
-import Prod3 from './components/Prod3';
 import Footer from './components/Footer';
 import Footer2 from './components/Footer2';
 
@@ -13,7 +12,7 @@ const data =  {
   ]
 }
 
-const third = {
+const popular = {
 "type": "popular"
 }
 const signature = {
@@ -25,8 +24,8 @@ const page = () => {
     <div>
       <Navbar/>
       <Carousell data={data} videos={true} />
-      <Prod6 type={third}/>
-      <Prod3 typee={signature}/>
+      <Prod6 type={popular} forr={"home"}/>
+      <Prod6 type={signature} forr={"home"}/>
       <Carousell data={data} videos={false}/>
       <Footer/>
       <Footer2/>

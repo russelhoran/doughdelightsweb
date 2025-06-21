@@ -20,8 +20,7 @@ const responsive = {
     }
   };
 
-const Carousell = ({data,videos=false}) => {
- console.log(data,'data3');
+const Carousell = ({data,videos=false}:any) => {
   return (
     <div>
   <Carousel responsive={responsive} swipeable={false}   removeArrowOnDeviceType={["tablet", "mobile"]}>
@@ -40,7 +39,7 @@ const Carousell = ({data,videos=false}) => {
   }}>A New Era of Authentic Italian Desserts</p>
   </div>
   )}
-  {data.src.map((img,index)=>(
+  {data.src.map((img:any,index:any)=>(
  <div key={index}>
     <img src={`${img}`} alt="" style={{height: "450px", objectFit: 'cover' , width:"100%"}} />
  </div>
